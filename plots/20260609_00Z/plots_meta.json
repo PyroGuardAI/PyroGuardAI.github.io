@@ -1,0 +1,923 @@
+{
+  "date": "20260609",
+  "cycle": "00",
+  "generated": "2026-06-10T08:38:36.409250",
+  "plots": [
+    {
+      "file": "t2m_F000.png",
+      "title": "T2m +000h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F000.png",
+      "title": "Précip +000h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F000.png",
+      "title": "Vent +000h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F000.png",
+      "title": "HR +000h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F000.png",
+      "title": "MSLP+Z500 +000h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F000.png",
+      "title": "FWI +000h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F001.png",
+      "title": "T2m +001h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F001.png",
+      "title": "Précip +001h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F001.png",
+      "title": "Vent +001h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F001.png",
+      "title": "HR +001h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F001.png",
+      "title": "MSLP+Z500 +001h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F001.png",
+      "title": "FWI +001h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F002.png",
+      "title": "T2m +002h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F002.png",
+      "title": "Précip +002h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F002.png",
+      "title": "Vent +002h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F002.png",
+      "title": "HR +002h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F002.png",
+      "title": "MSLP+Z500 +002h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F002.png",
+      "title": "FWI +002h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F003.png",
+      "title": "T2m +003h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F003.png",
+      "title": "Précip +003h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F003.png",
+      "title": "Vent +003h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F003.png",
+      "title": "HR +003h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F003.png",
+      "title": "MSLP+Z500 +003h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F003.png",
+      "title": "FWI +003h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F004.png",
+      "title": "T2m +004h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F004.png",
+      "title": "Précip +004h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F004.png",
+      "title": "Vent +004h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F004.png",
+      "title": "HR +004h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F004.png",
+      "title": "MSLP+Z500 +004h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F004.png",
+      "title": "FWI +004h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F005.png",
+      "title": "T2m +005h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F005.png",
+      "title": "Précip +005h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F005.png",
+      "title": "Vent +005h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F005.png",
+      "title": "HR +005h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F005.png",
+      "title": "MSLP+Z500 +005h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F005.png",
+      "title": "FWI +005h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F006.png",
+      "title": "T2m +006h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F006.png",
+      "title": "Précip +006h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F006.png",
+      "title": "Vent +006h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F006.png",
+      "title": "HR +006h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F006.png",
+      "title": "MSLP+Z500 +006h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F006.png",
+      "title": "FWI +006h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F007.png",
+      "title": "T2m +007h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F007.png",
+      "title": "Précip +007h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F007.png",
+      "title": "Vent +007h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F007.png",
+      "title": "HR +007h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F007.png",
+      "title": "MSLP+Z500 +007h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F007.png",
+      "title": "FWI +007h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F008.png",
+      "title": "T2m +008h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F008.png",
+      "title": "Précip +008h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F008.png",
+      "title": "Vent +008h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F008.png",
+      "title": "HR +008h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F008.png",
+      "title": "MSLP+Z500 +008h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F008.png",
+      "title": "FWI +008h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F009.png",
+      "title": "T2m +009h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F009.png",
+      "title": "Précip +009h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F009.png",
+      "title": "Vent +009h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F009.png",
+      "title": "HR +009h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F009.png",
+      "title": "MSLP+Z500 +009h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F009.png",
+      "title": "FWI +009h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F010.png",
+      "title": "T2m +010h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F010.png",
+      "title": "Précip +010h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F010.png",
+      "title": "Vent +010h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F010.png",
+      "title": "HR +010h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F010.png",
+      "title": "MSLP+Z500 +010h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F010.png",
+      "title": "FWI +010h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F011.png",
+      "title": "T2m +011h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F011.png",
+      "title": "Précip +011h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F011.png",
+      "title": "Vent +011h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F011.png",
+      "title": "HR +011h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F011.png",
+      "title": "MSLP+Z500 +011h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F011.png",
+      "title": "FWI +011h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F012.png",
+      "title": "T2m +012h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F012.png",
+      "title": "Précip +012h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F012.png",
+      "title": "Vent +012h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F012.png",
+      "title": "HR +012h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F012.png",
+      "title": "MSLP+Z500 +012h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F012.png",
+      "title": "FWI +012h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F013.png",
+      "title": "T2m +013h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F013.png",
+      "title": "Précip +013h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F013.png",
+      "title": "Vent +013h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F013.png",
+      "title": "HR +013h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F013.png",
+      "title": "MSLP+Z500 +013h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F013.png",
+      "title": "FWI +013h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F014.png",
+      "title": "T2m +014h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F014.png",
+      "title": "Précip +014h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F014.png",
+      "title": "Vent +014h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F014.png",
+      "title": "HR +014h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F014.png",
+      "title": "MSLP+Z500 +014h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F014.png",
+      "title": "FWI +014h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F015.png",
+      "title": "T2m +015h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F015.png",
+      "title": "Précip +015h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F015.png",
+      "title": "Vent +015h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F015.png",
+      "title": "HR +015h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F015.png",
+      "title": "MSLP+Z500 +015h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F015.png",
+      "title": "FWI +015h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F016.png",
+      "title": "T2m +016h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F016.png",
+      "title": "Précip +016h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F016.png",
+      "title": "Vent +016h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F016.png",
+      "title": "HR +016h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F016.png",
+      "title": "MSLP+Z500 +016h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F016.png",
+      "title": "FWI +016h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F017.png",
+      "title": "T2m +017h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F017.png",
+      "title": "Précip +017h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F017.png",
+      "title": "Vent +017h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F017.png",
+      "title": "HR +017h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F017.png",
+      "title": "MSLP+Z500 +017h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F017.png",
+      "title": "FWI +017h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F018.png",
+      "title": "T2m +018h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F018.png",
+      "title": "Précip +018h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F018.png",
+      "title": "Vent +018h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F018.png",
+      "title": "HR +018h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F018.png",
+      "title": "MSLP+Z500 +018h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F018.png",
+      "title": "FWI +018h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F019.png",
+      "title": "T2m +019h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F019.png",
+      "title": "Précip +019h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F019.png",
+      "title": "Vent +019h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F019.png",
+      "title": "HR +019h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F019.png",
+      "title": "MSLP+Z500 +019h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F019.png",
+      "title": "FWI +019h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F020.png",
+      "title": "T2m +020h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F020.png",
+      "title": "Précip +020h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F020.png",
+      "title": "Vent +020h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F020.png",
+      "title": "HR +020h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F020.png",
+      "title": "MSLP+Z500 +020h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F020.png",
+      "title": "FWI +020h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F021.png",
+      "title": "T2m +021h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F021.png",
+      "title": "Précip +021h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F021.png",
+      "title": "Vent +021h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F021.png",
+      "title": "HR +021h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F021.png",
+      "title": "MSLP+Z500 +021h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F021.png",
+      "title": "FWI +021h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F022.png",
+      "title": "T2m +022h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F022.png",
+      "title": "Précip +022h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F022.png",
+      "title": "Vent +022h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F022.png",
+      "title": "HR +022h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F022.png",
+      "title": "MSLP+Z500 +022h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F022.png",
+      "title": "FWI +022h",
+      "category": "feu"
+    },
+    {
+      "file": "t2m_F023.png",
+      "title": "T2m +023h",
+      "category": "meteo"
+    },
+    {
+      "file": "prec_F023.png",
+      "title": "Précip +023h",
+      "category": "meteo"
+    },
+    {
+      "file": "wind_F023.png",
+      "title": "Vent +023h",
+      "category": "meteo"
+    },
+    {
+      "file": "rh_F023.png",
+      "title": "HR +023h",
+      "category": "feu"
+    },
+    {
+      "file": "mslp_F023.png",
+      "title": "MSLP+Z500 +023h",
+      "category": "meteo"
+    },
+    {
+      "file": "fwi_F023.png",
+      "title": "FWI +023h",
+      "category": "feu"
+    }
+  ],
+  "fwi_timeseries": {
+    "0": {
+      "ffmc": 75.0,
+      "dmc": 18.9,
+      "dc": 227.0,
+      "isi": 1.49,
+      "bui": 31.3,
+      "fwi": 3.1
+    },
+    "1": {
+      "ffmc": 73.2,
+      "dmc": 18.5,
+      "dc": 223.0,
+      "isi": 1.3,
+      "bui": 30.7,
+      "fwi": 2.6
+    },
+    "2": {
+      "ffmc": 72.6,
+      "dmc": 18.3,
+      "dc": 220.8,
+      "isi": 1.29,
+      "bui": 30.3,
+      "fwi": 2.5
+    },
+    "3": {
+      "ffmc": 71.9,
+      "dmc": 18.1,
+      "dc": 218.6,
+      "isi": 1.28,
+      "bui": 29.9,
+      "fwi": 2.4
+    },
+    "4": {
+      "ffmc": 71.3,
+      "dmc": 17.9,
+      "dc": 216.9,
+      "isi": 1.27,
+      "bui": 29.6,
+      "fwi": 2.4
+    },
+    "5": {
+      "ffmc": 71.7,
+      "dmc": 17.9,
+      "dc": 217.5,
+      "isi": 1.3,
+      "bui": 29.7,
+      "fwi": 2.5
+    },
+    "6": {
+      "ffmc": 73.7,
+      "dmc": 18.5,
+      "dc": 222.3,
+      "isi": 1.45,
+      "bui": 30.6,
+      "fwi": 2.9
+    },
+    "7": {
+      "ffmc": 76.0,
+      "dmc": 19.0,
+      "dc": 228.2,
+      "isi": 1.64,
+      "bui": 31.5,
+      "fwi": 3.5
+    },
+    "8": {
+      "ffmc": 77.8,
+      "dmc": 19.5,
+      "dc": 233.4,
+      "isi": 1.9,
+      "bui": 32.3,
+      "fwi": 4.2
+    },
+    "9": {
+      "ffmc": 79.4,
+      "dmc": 19.9,
+      "dc": 237.7,
+      "isi": 2.21,
+      "bui": 33.0,
+      "fwi": 5.0
+    },
+    "10": {
+      "ffmc": 80.6,
+      "dmc": 20.3,
+      "dc": 241.2,
+      "isi": 2.55,
+      "bui": 33.5,
+      "fwi": 5.8
+    },
+    "11": {
+      "ffmc": 81.7,
+      "dmc": 20.5,
+      "dc": 244.1,
+      "isi": 2.97,
+      "bui": 33.9,
+      "fwi": 6.8
+    },
+    "12": {
+      "ffmc": 82.6,
+      "dmc": 20.7,
+      "dc": 246.5,
+      "isi": 3.45,
+      "bui": 34.2,
+      "fwi": 7.8
+    },
+    "13": {
+      "ffmc": 83.3,
+      "dmc": 20.8,
+      "dc": 248.2,
+      "isi": 3.9,
+      "bui": 34.5,
+      "fwi": 8.7
+    },
+    "14": {
+      "ffmc": 83.8,
+      "dmc": 20.9,
+      "dc": 249.3,
+      "isi": 4.31,
+      "bui": 34.6,
+      "fwi": 9.5
+    },
+    "15": {
+      "ffmc": 84.0,
+      "dmc": 21.0,
+      "dc": 249.8,
+      "isi": 4.64,
+      "bui": 34.7,
+      "fwi": 10.2
+    },
+    "16": {
+      "ffmc": 84.0,
+      "dmc": 20.9,
+      "dc": 249.4,
+      "isi": 4.74,
+      "bui": 34.6,
+      "fwi": 10.3
+    },
+    "17": {
+      "ffmc": 83.7,
+      "dmc": 20.8,
+      "dc": 247.9,
+      "isi": 4.64,
+      "bui": 34.4,
+      "fwi": 10.1
+    },
+    "18": {
+      "ffmc": 82.8,
+      "dmc": 20.6,
+      "dc": 245.0,
+      "isi": 4.14,
+      "bui": 34.0,
+      "fwi": 9.1
+    },
+    "19": {
+      "ffmc": 81.0,
+      "dmc": 20.1,
+      "dc": 239.3,
+      "isi": 3.1,
+      "bui": 33.2,
+      "fwi": 6.9
+    },
+    "20": {
+      "ffmc": 79.3,
+      "dmc": 19.7,
+      "dc": 234.6,
+      "isi": 2.48,
+      "bui": 32.5,
+      "fwi": 5.6
+    },
+    "21": {
+      "ffmc": 78.0,
+      "dmc": 19.3,
+      "dc": 231.0,
+      "isi": 2.15,
+      "bui": 32.0,
+      "fwi": 4.8
+    },
+    "22": {
+      "ffmc": 76.7,
+      "dmc": 19.0,
+      "dc": 227.9,
+      "isi": 1.9,
+      "bui": 31.5,
+      "fwi": 4.1
+    },
+    "23": {
+      "ffmc": 75.6,
+      "dmc": 18.7,
+      "dc": 225.0,
+      "isi": 1.72,
+      "bui": 31.0,
+      "fwi": 3.7
+    }
+  },
+  "fwi_max": 10.3,
+  "risk_level": "LOW"
+}

@@ -3,547 +3,420 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ForestPyroGuard AI — Algérie</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<title>ForestPyroGuard AI — Système de Prévision Feux</title>
 <style>
-:root{
-  --bg:#080c08;--bg2:#0e140e;--bg3:#161e16;
-  --border:rgba(255,255,255,0.07);
-  --text:#cce0cc;--muted:#4a6a4a;
-  --orange:#e06a18;--green:#2a6a35;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);}
+  :root {
+    --green: #1A4731; --orange: #C0520A; --light-green: #D6EAD8;
+    --bg: #f8f9fa; --white: #ffffff; --gray: #6c757d;
+    --danger: #dc3545; --warning: #fd7e14; --success: #28a745;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: #333; }
 
-/* SPLASH */
-#splash{
-  position:fixed;inset:0;z-index:9999;
-  background:radial-gradient(ellipse at 50% 40%, #0c1a0c 0%, #050805 100%);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:20px;overflow-y:auto;
-  transition:opacity 0.7s ease;
-}
-#splash.fade-out{opacity:0;pointer-events:none;}
-.sp-logo{font-size:72px;line-height:1;animation:breathe 3s ease-in-out infinite;}
-@keyframes breathe{0%,100%{transform:scale(1)filter:brightness(1)}50%{transform:scale(1.06);filter:brightness(1.3)}}
-.sp-brand{margin-top:20px;text-align:center;}
-.sp-brand h1{font-size:2.1rem;font-weight:800;color:#fff;letter-spacing:3px;}
-.sp-brand h2{font-size:0.82rem;color:var(--orange);letter-spacing:4px;text-transform:uppercase;margin-top:6px;}
-.sp-divider{width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--orange),transparent);margin:22px auto;}
-.sp-desc{max-width:580px;text-align:center;font-size:0.84rem;color:#6a8a6a;line-height:1.75;}
-.sp-desc b{color:#8aaa8a;font-weight:600;}
-.sp-feats{display:flex;gap:24px;margin-top:28px;flex-wrap:wrap;justify-content:center;}
-.sf{text-align:center;min-width:100px;}
-.sf-icon{font-size:1.5rem;display:block;margin-bottom:6px;}
-.sf-val{font-size:0.82rem;font-weight:700;color:#fff;display:block;}
-.sf-lbl{font-size:0.68rem;color:var(--muted);margin-top:2px;}
-.sp-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:500px;width:100%;margin-top:24px;}
-.spc{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:7px;padding:10px 14px;}
-.spc-lbl{font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
-.spc-val{font-size:0.85rem;font-weight:600;color:#bdd8bd;margin-top:3px;}
-.sp-enter{
-  margin-top:36px;
-  background:var(--orange);color:#fff;
-  border:none;border-radius:7px;
-  padding:13px 52px;font-size:0.92rem;font-weight:800;
-  letter-spacing:2px;text-transform:uppercase;cursor:pointer;
-  transition:transform 0.15s,filter 0.15s;
-}
-.sp-enter:hover{transform:translateY(-2px);filter:brightness(1.12);}
-.sp-enter:active{transform:translateY(0);}
-.sp-ver{margin-top:16px;font-size:0.63rem;color:var(--muted);}
+  /* ── LOGIN OVERLAY ── */
+  #login-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
+    background: linear-gradient(135deg, #1A4731 0%, #0d2b1e 50%, #2d1a0a 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .login-box {
+    background: white; border-radius: 16px; padding: 40px;
+    width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); text-align: center;
+  }
+  .login-logo { font-size: 48px; margin-bottom: 8px; }
+  .login-title { font-size: 22px; font-weight: 700; color: var(--green); margin-bottom: 4px; }
+  .login-sub { font-size: 13px; color: var(--gray); margin-bottom: 28px; }
+  .login-box input {
+    width: 100%; padding: 12px 16px; border: 1.5px solid #ddd; border-radius: 8px;
+    font-size: 14px; margin-bottom: 12px; outline: none; transition: border-color 0.2s;
+  }
+  .login-box input:focus { border-color: var(--green); }
+  .login-btn {
+    width: 100%; padding: 13px; background: var(--green); color: white;
+    border: none; border-radius: 8px; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: background 0.2s; margin-top: 4px;
+  }
+  .login-btn:hover { background: #0d2b1e; }
+  .login-error { color: var(--danger); font-size: 13px; margin-top: 8px; display: none; }
+  .login-footer { font-size: 11px; color: #aaa; margin-top: 20px; }
+  .visitor-log {
+    margin-top: 20px; background: #f8f9fa; border-radius: 8px; padding: 12px;
+    font-size: 12px; color: #555; text-align: left; max-height: 120px; overflow-y: auto;
+  }
+  .visitor-log h4 { font-size: 12px; color: var(--green); margin-bottom: 6px; }
 
-/* APP */
-#app{display:none;height:100%;flex-direction:column;}
-#app.show{display:flex;}
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, var(--green) 0%, #0d2b1e 100%);
+    color: white; padding: 0 24px; position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-icon { font-size: 28px; }
+  .logo-text { font-size: 18px; font-weight: 700; }
+  .logo-sub { font-size: 11px; opacity: 0.75; }
+  .header-right { display: flex; align-items: center; gap: 16px; }
+  .user-badge { background: rgba(255,255,255,0.15); border-radius: 20px; padding: 4px 12px; font-size: 13px; }
+  .logout-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 5px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+  .logout-btn:hover { background: rgba(255,255,255,0.2); }
+  .run-badge { background: var(--orange); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 600; }
 
-/* HEADER */
-header{
-  height:52px;min-height:52px;
-  background:var(--bg2);border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 14px;gap:12px;z-index:300;position:relative;
-}
-.hbrand{display:flex;align-items:center;gap:9px;}
-.hlogo{width:30px;height:30px;background:rgba(224,106,24,0.18);border:1px solid rgba(224,106,24,0.4);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1rem;}
-.htitle{font-size:0.95rem;font-weight:700;color:#fff;}
-.hsub{font-size:0.62rem;color:var(--muted);}
-.hmeta{display:flex;gap:7px;align-items:center;flex-shrink:0;}
-.hbadge{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:3px 9px;font-size:0.68rem;white-space:nowrap;}
-.hbadge b{color:var(--orange);}
-#alert-chip{display:none;background:rgba(220,40,40,0.12);border:1px solid rgba(220,40,40,0.4);border-radius:20px;padding:3px 11px;font-size:0.68rem;color:#ff6060;font-weight:700;animation:ablnk 1.4s ease-in-out infinite;}
-@keyframes ablnk{0%,100%{opacity:1}50%{opacity:0.4}}
+  /* ── MAIN ── */
+  main { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
 
-/* BODY */
-.body{display:flex;flex:1;overflow:hidden;}
+  /* ── ALERT BANNER ── */
+  .alert-banner {
+    background: linear-gradient(90deg, #fff8f0, #fff3e0);
+    border-left: 4px solid var(--orange); border-radius: 8px;
+    padding: 14px 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
+  }
+  .alert-icon { font-size: 22px; }
+  .alert-text { font-size: 14px; color: #555; }
+  .alert-text strong { color: var(--orange); }
 
-/* SIDEBAR */
-.sidebar{width:244px;min-width:244px;background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
-.sb-sec{padding:10px 12px;border-bottom:1px solid var(--border);}
-.sblbl{font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;}
+  /* ── STATS CARDS ── */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+  .stat-card {
+    background: white; border-radius: 12px; padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-top: 3px solid var(--green);
+  }
+  .stat-card.orange { border-top-color: var(--orange); }
+  .stat-card.blue { border-top-color: #185FA5; }
+  .stat-card.red { border-top-color: var(--danger); }
+  .stat-label { font-size: 11px; color: var(--gray); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+  .stat-value { font-size: 28px; font-weight: 700; color: var(--green); }
+  .stat-card.orange .stat-value { color: var(--orange); }
+  .stat-card.blue .stat-value { color: #185FA5; }
+  .stat-card.red .stat-value { color: var(--danger); }
+  .stat-sub { font-size: 12px; color: var(--gray); margin-top: 4px; }
 
-/* Risk cards */
-.rcard{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 10px;margin-bottom:5px;cursor:pointer;transition:border-color 0.18s,transform 0.12s;}
-.rcard:hover{border-color:rgba(255,255,255,0.18);transform:translateX(2px);}
-.rct{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
-.rcn{font-size:0.74rem;font-weight:600;}
-.rpill{padding:2px 7px;border-radius:20px;font-size:0.63rem;font-weight:700;}
-.rE{background:rgba(220,40,40,0.18);color:#ff6060;border:1px solid rgba(220,40,40,0.35);}
-.rH{background:rgba(220,144,0,0.18);color:#ffaa30;border:1px solid rgba(220,144,0,0.35);}
-.rM{background:rgba(200,190,0,0.18);color:#ffe050;border:1px solid rgba(200,190,0,0.35);}
-.rL{background:rgba(50,180,50,0.18);color:#60cc60;border:1px solid rgba(50,180,50,0.35);}
-.rbg{height:3px;background:rgba(255,255,255,0.05);border-radius:2px;margin-bottom:3px;}
-.rbar{height:100%;border-radius:2px;transition:width 0.4s;}
-.rval{font-size:0.66rem;color:var(--muted);}
+  /* ── TABS ── */
+  .tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tab-btn {
+    padding: 8px 18px; border: 1.5px solid #ddd; border-radius: 20px;
+    background: white; font-size: 13px; cursor: pointer; transition: all 0.2s; color: #555;
+  }
+  .tab-btn.active { background: var(--green); color: white; border-color: var(--green); }
+  .tab-btn:hover:not(.active) { border-color: var(--green); color: var(--green); }
 
-/* Params */
-.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
-.pbtn{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:7px 4px 6px;font-size:0.68rem;color:var(--text);cursor:pointer;text-align:center;transition:all 0.15s;line-height:1.3;}
-.pbtn:hover{border-color:rgba(255,255,255,0.2);}
-.pbtn.on{border-color:var(--orange);background:rgba(224,106,24,0.18);color:#fff;}
-.pi{font-size:1.1rem;display:block;margin-bottom:2px;}
+  /* ── MAP GRID ── */
+  .map-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .map-card {
+    background: white; border-radius: 12px; overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: transform 0.2s;
+  }
+  .map-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+  .map-card img { width: 100%; height: 220px; object-fit: cover; display: block; }
+  .map-label { padding: 10px 14px; font-size: 13px; font-weight: 500; color: #333; background: #fafafa; border-top: 1px solid #eee; }
 
-/* Stats */
-.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
-.scard{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:7px 9px;}
-.slbl{font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.7px;}
-.sval{font-size:1.1rem;font-weight:700;margin-top:1px;line-height:1;}
-.sunit{font-size:0.6rem;color:var(--muted);font-weight:400;}
+  /* ── TIMESTEP SLIDER ── */
+  .slider-section { background: white; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .slider-label { font-size: 13px; color: var(--gray); margin-bottom: 8px; }
+  .slider-row { display: flex; align-items: center; gap: 12px; }
+  input[type=range] { flex: 1; accent-color: var(--green); }
+  .slider-val { font-size: 14px; font-weight: 600; color: var(--green); min-width: 60px; }
 
-/* FWI */
-.frow{margin-bottom:7px;}
-.frt{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1px;}
-.fn{font-size:0.68rem;font-weight:700;color:#fff;}
-.fv{font-size:0.74rem;font-weight:700;}
-.fd{font-size:0.6rem;color:var(--muted);margin-bottom:2px;}
-.fb{height:3px;background:rgba(255,255,255,0.05);border-radius:2px;}
-.ff{height:100%;border-radius:2px;transition:width 0.5s;}
+  /* ── FWI TABLE ── */
+  .fwi-section { background: white; border-radius: 12px; padding: 20px; margin-top: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .fwi-section h3 { font-size: 15px; color: var(--green); margin-bottom: 14px; }
+  .fwi-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .fwi-table th { background: var(--green); color: white; padding: 10px 14px; text-align: left; }
+  .fwi-table td { padding: 9px 14px; border-bottom: 1px solid #f0f0f0; }
+  .fwi-table tr:hover td { background: #f9fffe; }
+  .risk-badge { display: inline-block; padding: 2px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; }
+  .risk-LOW { background: #d4edda; color: #155724; }
+  .risk-MODERATE { background: #fff3cd; color: #856404; }
+  .risk-HIGH { background: #f8d7da; color: #721c24; }
+  .risk-EXTREME { background: #d63384; color: white; }
 
-/* MAP */
-.maparea{flex:1;display:flex;flex-direction:column;position:relative;overflow:hidden;}
-#map{flex:1;background:var(--bg);}
-.mtitle{position:absolute;top:9px;left:50%;transform:translateX(-50%);z-index:500;background:rgba(8,12,8,0.9);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:6px;padding:5px 15px;font-size:0.8rem;font-weight:600;pointer-events:none;white-space:nowrap;}
-.legend{position:absolute;bottom:58px;right:9px;z-index:500;background:rgba(8,12,8,0.93);border:1px solid var(--border);border-radius:7px;padding:9px 12px;min-width:120px;}
-.legend h4{font-size:0.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
-.li{display:flex;align-items:center;gap:6px;margin-bottom:3px;font-size:0.68rem;}
-.lsw{width:11px;height:11px;border-radius:2px;flex-shrink:0;}
+  /* ── VISITOR LOG ── */
+  .visitor-section { background: white; border-radius: 12px; padding: 20px; margin-top: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .visitor-section h3 { font-size: 15px; color: var(--green); margin-bottom: 14px; }
+  .visitor-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .visitor-table th { background: var(--green); color: white; padding: 10px 14px; text-align: left; }
+  .visitor-table td { padding: 9px 14px; border-bottom: 1px solid #f0f0f0; }
 
-/* BOTTOM */
-.bottom{height:48px;min-height:48px;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;gap:11px;padding:0 13px;}
-.play-btn{background:rgba(224,106,24,0.14);border:1px solid var(--orange);border-radius:6px;padding:5px 14px;color:var(--orange);font-size:0.74rem;cursor:pointer;font-weight:700;transition:background 0.18s;white-space:nowrap;min-width:86px;}
-.play-btn:hover{background:rgba(224,106,24,0.28);}
-.sw{flex:1;display:flex;align-items:center;gap:9px;}
-#fh-slider{flex:1;accent-color:var(--orange);}
-#fh-label{font-size:0.74rem;font-weight:700;color:var(--orange);min-width:40px;}
-.fchips{display:flex;gap:8px;flex-wrap:wrap;}
-.fchip{font-size:0.66rem;}
-.fchip span{color:var(--muted);}
+  /* ── FOOTER ── */
+  footer { background: var(--green); color: rgba(255,255,255,0.8); text-align: center; padding: 20px; font-size: 12px; margin-top: 40px; }
+  footer strong { color: white; }
 
-/* Leaflet */
-.leaflet-container{background:var(--bg)!important;}
-.leaflet-control-zoom a{background:var(--bg2)!important;color:var(--text)!important;border-color:var(--border)!important;}
-.leaflet-control-attribution{background:rgba(8,12,8,0.7)!important;color:var(--muted)!important;font-size:9px!important;}
-.leaflet-popup-content-wrapper{background:var(--bg2)!important;color:var(--text)!important;border:1px solid var(--border)!important;border-radius:7px!important;box-shadow:none!important;}
-.leaflet-popup-tip{background:var(--bg2)!important;}
-.leaflet-tooltip{background:rgba(14,20,14,0.95)!important;border:1px solid var(--border)!important;color:var(--text)!important;font-size:11px!important;padding:4px 8px!important;border-radius:4px!important;box-shadow:none!important;}
-.leaflet-tooltip-top:before{border-top-color:var(--border)!important;}
+  @media(max-width:768px) {
+    .stats-grid { grid-template-columns: repeat(2,1fr); }
+    .map-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
 
-<!-- SPLASH -->
-<div id="splash">
-  <div class="sp-logo">🔥</div>
-  <div class="sp-brand">
-    <h1>ForestPyroGuard AI</h1>
-    <h2>Système de prévision feux · Algérie</h2>
+<!-- ══ LOGIN OVERLAY ══ -->
+<div id="login-overlay">
+  <div class="login-box">
+    <div class="login-logo">🔥</div>
+    <div class="login-title">ForestPyroGuard AI</div>
+    <div class="login-sub">Système de Prévision Feux — Nord Algérien<br>Accès réservé aux utilisateurs autorisés</div>
+    <input type="text" id="login-username" placeholder="Nom d'utilisateur" autocomplete="off">
+    <input type="text" id="login-org" placeholder="Organisation / Institution">
+    <input type="password" id="login-password" placeholder="Mot de passe" onkeydown="if(event.key==='Enter') doLogin()">
+    <button class="login-btn" onclick="doLogin()">🔐 Accéder au Dashboard</button>
+    <div class="login-error" id="login-error">❌ Mot de passe incorrect</div>
+    <div class="login-footer">
+      ForestPyroGuard AI © 2026 — Université Constantine 3 IGTU<br>
+      Master MEHMED — Projet de fin d'études
+    </div>
+    <div class="visitor-log" id="past-visitors" style="display:none">
+      <h4>👥 Derniers visiteurs</h4>
+      <div id="past-visitors-list"></div>
+    </div>
   </div>
-  <div class="sp-divider"></div>
-  <p class="sp-desc">
-    Plateforme opérationnelle de surveillance et de prévision du risque incendie de forêt basée sur
-    le modèle <b>WRF-ARW 4.6.1</b> à 15 km de résolution, alimentée par les analyses <b>GFS 0.25° NCEP</b>.
-    Développée par l'<b>ONM/DMRE Constantine</b> en partenariat avec <b>Université Constantine 3</b> et <b>GIZ Agritech</b>.
-  </p>
-  <div class="sp-feats">
-    <div class="sf"><span class="sf-icon">🛰️</span><span class="sf-val">WRF 4.6.1</span><span class="sf-lbl">ARW @ 15 km<br>domaine Algérie</span></div>
-    <div class="sf"><span class="sf-icon">🔥</span><span class="sf-val">FWI Canadien</span><span class="sf-lbl">FFMC · DMC · DC<br>ISI · BUI · FWI</span></div>
-    <div class="sf"><span class="sf-icon">📡</span><span class="sf-val">GFS 0.25°</span><span class="sf-lbl">Run 00Z quotidien<br>24h de prévision</span></div>
-    <div class="sf"><span class="sf-icon">🗺️</span><span class="sf-val">Carte interactive</span><span class="sf-lbl">Animation horaire<br>6 paramètres</span></div>
-  </div>
-  <div class="sp-cards">
-    <div class="spc"><div class="spc-lbl">Porteur du projet</div><div class="spc-val">ONM — DMRE Constantine</div></div>
-    <div class="spc"><div class="spc-lbl">Partenaires</div><div class="spc-val">UC3 · GIZ Agritech</div></div>
-    <div class="spc"><div class="spc-lbl">Modèle NWP</div><div class="spc-val">WRF-ARW 4.6.1 · WPS 4.6</div></div>
-    <div class="spc"><div class="spc-lbl">Domaine</div><div class="spc-val">100×80 pts · 15 km</div></div>
-  </div>
-  <button class="sp-enter" onclick="enterApp()">Accéder au tableau de bord</button>
-  <div class="sp-ver">v2.1 · Run GFS 22/05/2026 00Z · ONM/PGAI · khaledgassi.github.io/wrf-meteo</div>
 </div>
 
-<!-- APP -->
-<div id="app">
-  <header>
-    <div class="hbrand">
-      <div class="hlogo">🔥</div>
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-icon">🔥</span>
       <div>
-        <div class="htitle">ForestPyroGuard AI</div>
-        <div class="hsub">Prévision Feux · Algérie · WRF 4.6.1 @ 15km · GFS 0.25°</div>
+        <div class="logo-text">ForestPyroGuard AI</div>
+        <div class="logo-sub">Guardians of the Green — Smart Monitoring. Rapid Response.</div>
       </div>
     </div>
-    <div class="hmeta">
-      <div class="hbadge">Run GFS <b id="rl">—</b></div>
-      <div class="hbadge">Màj <b id="ut">—</b></div>
-      <div id="alert-chip">⚠ RISQUE EXTRÊME</div>
+    <div class="header-right">
+      <span class="run-badge" id="run-date-badge">Run GFS 09/06/2026 00Z</span>
+      <span class="user-badge" id="user-display">👤 —</span>
+      <button class="logout-btn" onclick="doLogout()">Déconnexion</button>
     </div>
-  </header>
+  </div>
+</header>
 
-  <div class="body">
-    <div class="sidebar">
-      <div class="sb-sec"><div class="sblbl">Risque feux — zones clés</div><div id="rcards"></div></div>
-      <div class="sb-sec"><div class="sblbl">Paramètre affiché</div><div class="pgrid" id="pgrid"></div></div>
-      <div class="sb-sec"><div class="sblbl">Stats domaine</div><div class="sgrid" id="sgrid"></div></div>
-      <div class="sb-sec"><div class="sblbl">Indices FWI canadiens</div><div id="frows"></div></div>
-    </div>
-
-    <div class="maparea">
-      <div class="mtitle" id="mtitle">Initialisation...</div>
-      <div id="map"></div>
-      <div class="legend" id="legend"></div>
+<!-- ══ MAIN ══ -->
+<main>
+  <!-- Alert -->
+  <div class="alert-banner">
+    <span class="alert-icon">⚠️</span>
+    <div class="alert-text">
+      <strong>Prévision du 09 juin 2026 — 00Z</strong> · FWI max: <strong>10.3</strong> ·
+      Niveau de risque: <strong style="color:#28a745">FAIBLE</strong> · 
+      Domaine: Nord Algérien 27km · 24h de prévision
     </div>
   </div>
 
-  <div class="bottom">
-    <button class="play-btn" id="pbtn" onclick="togglePlay()">▶ Animer</button>
-    <div class="sw">
-      <input type="range" id="fh-slider" min="0" max="24" value="0" step="1" oninput="seekFH(+this.value)">
-      <span id="fh-label">+00h</span>
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">FWI Maximum</div>
+      <div class="stat-value">10.3</div>
+      <div class="stat-sub">Heure 16 (16h00 UTC)</div>
     </div>
-    <div class="fchips" id="fchips"></div>
+    <div class="stat-card orange">
+      <div class="stat-label">Température Max</div>
+      <div class="stat-value">38°C</div>
+      <div class="stat-sub">Nord algérien — après-midi</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-label">Résolution WRF</div>
+      <div class="stat-value">27km</div>
+      <div class="stat-sub">Domaine D01 — 100×80</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Niveau Risque</div>
+      <div class="stat-value" style="color:#28a745">LOW</div>
+      <div class="stat-sub">FWI &lt; 12 — Faible</div>
+    </div>
   </div>
-</div>
+
+  <!-- Slider -->
+  <div class="slider-section">
+    <div class="slider-label">🕐 Échéance de prévision</div>
+    <div class="slider-row">
+      <input type="range" id="timestep-slider" min="0" max="23" value="0" oninput="updateMaps(this.value)">
+      <span class="slider-val" id="slider-display">+000h</span>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showCat('all', this)">🗺️ Toutes les cartes</button>
+    <button class="tab-btn" onclick="showCat('feu', this)">🔥 Risque Feux (FWI)</button>
+    <button class="tab-btn" onclick="showCat('t2m', this)">🌡️ Température</button>
+    <button class="tab-btn" onclick="showCat('wind', this)">💨 Vent</button>
+    <button class="tab-btn" onclick="showCat('rh', this)">💧 Humidité</button>
+    <button class="tab-btn" onclick="showCat('prec', this)">🌧️ Précipitations</button>
+    <button class="tab-btn" onclick="showCat('mslp', this)">🔵 MSLP</button>
+  </div>
+
+  <!-- Map Grid -->
+  <div class="map-grid" id="map-grid"></div>
+
+  <!-- FWI Timeseries -->
+  <div class="fwi-section">
+    <h3>📊 Évolution du FWI sur 24h — 09 juin 2026</h3>
+    <table class="fwi-table">
+      <thead><tr><th>Heure</th><th>FFMC</th><th>DMC</th><th>DC</th><th>ISI</th><th>BUI</th><th>FWI</th><th>Risque</th></tr></thead>
+      <tbody id="fwi-tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- Visitor Log -->
+  <div class="visitor-section" id="visitor-section" style="display:none">
+    <h3>👥 Registre des visiteurs</h3>
+    <table class="visitor-table">
+      <thead><tr><th>Nom</th><th>Organisation</th><th>Date & Heure</th><th>Session</th></tr></thead>
+      <tbody id="visitors-tbody"></tbody>
+    </table>
+  </div>
+</main>
+
+<footer>
+  <strong>ForestPyroGuard AI</strong> — Premier système de prévision feux basé sur WRF+IA en Algérie<br>
+  Université Constantine 3 — IGTU — Master MEHMED 2025/2026<br>
+  DEBBECHE Abir Ibtihel · BRAMKI Mohammed Zakarya · CHERIF Anfel<br>
+  Encadrante: Dr. BOULAHIA Latifa · Co-encadrant: GASSI Khaled A. (ONM)
+</footer>
 
 <script>
-/* === CONFIG === */
-const RUN_DATE = "22/05/2026", RUN_CYCLE = "00Z", MAX_FH = 24;
+// ── DATA ──────────────────────────────────────────────────
+const META_DATE = "20260609";
+const META_CYCLE = "00";
+const PLOTS_PATH = "plots/20260609_00Z/";
+const PASSWORD = "forestpyro2026";
 
-const PARAMS = [
-  {id:"wind",lbl:"Vent 10m", icon:"💨",unit:"km/h"},
-  {id:"t2m", lbl:"Temp. 2m", icon:"🌡",unit:"°C"},
-  {id:"prec",lbl:"Précip.",  icon:"🌧",unit:"mm"},
-  {id:"mslp",lbl:"MSLP",    icon:"🌀",unit:"hPa"},
-  {id:"rh",  lbl:"Humidité",icon:"💧",unit:"%"},
-  {id:"fwi", lbl:"FWI",     icon:"🔥",unit:"idx"},
+const FWI_DATA = {"0":{"ffmc":75.0,"dmc":18.9,"dc":227.0,"isi":1.49,"bui":31.3,"fwi":3.1},"1":{"ffmc":73.2,"dmc":18.5,"dc":223.0,"isi":1.3,"bui":30.7,"fwi":2.6},"2":{"ffmc":72.6,"dmc":18.3,"dc":220.8,"isi":1.29,"bui":30.3,"fwi":2.5},"3":{"ffmc":71.9,"dmc":18.1,"dc":218.6,"isi":1.28,"bui":29.9,"fwi":2.4},"4":{"ffmc":71.3,"dmc":17.9,"dc":216.9,"isi":1.27,"bui":29.6,"fwi":2.4},"5":{"ffmc":71.7,"dmc":17.9,"dc":217.5,"isi":1.3,"bui":29.7,"fwi":2.5},"6":{"ffmc":73.7,"dmc":18.5,"dc":222.3,"isi":1.45,"bui":30.6,"fwi":2.9},"7":{"ffmc":76.0,"dmc":19.0,"dc":228.2,"isi":1.64,"bui":31.5,"fwi":3.5},"8":{"ffmc":77.8,"dmc":19.5,"dc":233.4,"isi":1.9,"bui":32.3,"fwi":4.2},"9":{"ffmc":79.4,"dmc":19.9,"dc":237.7,"isi":2.21,"bui":33.0,"fwi":5.0},"10":{"ffmc":80.6,"dmc":20.3,"dc":241.2,"isi":2.55,"bui":33.5,"fwi":5.8},"11":{"ffmc":81.7,"dmc":20.5,"dc":244.1,"isi":2.97,"bui":33.9,"fwi":6.8},"12":{"ffmc":82.6,"dmc":20.7,"dc":246.5,"isi":3.45,"bui":34.2,"fwi":7.8},"13":{"ffmc":83.3,"dmc":20.8,"dc":248.2,"isi":3.9,"bui":34.5,"fwi":8.7},"14":{"ffmc":83.8,"dmc":20.9,"dc":249.3,"isi":4.31,"bui":34.6,"fwi":9.5},"15":{"ffmc":84.0,"dmc":21.0,"dc":249.8,"isi":4.64,"bui":34.7,"fwi":10.2},"16":{"ffmc":84.0,"dmc":20.9,"dc":249.4,"isi":4.74,"bui":34.6,"fwi":10.3},"17":{"ffmc":83.7,"dmc":20.8,"dc":247.9,"isi":4.64,"bui":34.4,"fwi":10.1},"18":{"ffmc":82.8,"dmc":20.6,"dc":245.0,"isi":4.14,"bui":34.0,"fwi":9.1},"19":{"ffmc":81.0,"dmc":20.1,"dc":239.3,"isi":3.1,"bui":33.2,"fwi":6.9},"20":{"ffmc":79.3,"dmc":19.7,"dc":234.6,"isi":2.48,"bui":32.5,"fwi":5.6},"21":{"ffmc":78.0,"dmc":19.3,"dc":231.0,"isi":2.15,"bui":32.0,"fwi":4.8},"22":{"ffmc":76.7,"dmc":19.0,"dc":227.9,"isi":1.9,"bui":31.5,"fwi":4.1},"23":{"ffmc":75.6,"dmc":18.7,"dc":225.0,"isi":1.72,"bui":31.0,"fwi":3.7}};
+
+const VARS = [
+  { prefix: 'fwi',  label: '🔥 FWI',          cat: 'feu' },
+  { prefix: 't2m',  label: '🌡️ Température 2m', cat: 't2m' },
+  { prefix: 'wind', label: '💨 Vent 10m',       cat: 'wind' },
+  { prefix: 'rh',   label: '💧 Humidité rel.',  cat: 'rh' },
+  { prefix: 'prec', label: '🌧️ Précipitations', cat: 'prec' },
+  { prefix: 'mslp', label: '🔵 MSLP+Z500',     cat: 'mslp' },
 ];
 
-const RISK_ZONES = [
-  {n:"Kabylie / Tizi-Ouzou",fwi:38,r:"E",lat:36.70,lon:4.05},
-  {n:"Béjaïa / Soummam",    fwi:31,r:"H",lat:36.75,lon:5.08},
-  {n:"Skikda / Annaba",     fwi:27,r:"H",lat:36.88,lon:7.10},
-  {n:"Blida / Médéa",       fwi:22,r:"M",lat:36.47,lon:2.82},
-  {n:"Jijel / Mila",        fwi:18,r:"M",lat:36.82,lon:5.77},
-  {n:"Batna / Aurès",       fwi:11,r:"L",lat:35.56,lon:6.17},
-];
-const RLBLS={E:"EXTRÊME",H:"ÉLEVÉ",M:"MODÉRÉ",L:"FAIBLE"};
-const RCOLS={E:"#e84040",H:"#e09000",M:"#cccc00",L:"#40c040"};
+let currentCat = 'all';
+let currentStep = 0;
 
-const FWI_DATA = [
-  {n:"FFMC",desc:"Teneur litière", v:88, max:101,c:"#ff9944"},
-  {n:"DMC", desc:"Org. moyenne",   v:45, max:150,c:"#ffcc00"},
-  {n:"DC",  desc:"Sécheresse",     v:312,max:800,c:"#ff6644"},
-  {n:"ISI", desc:"Propagation",    v:9.2,max:25, c:"#ff4444"},
-  {n:"BUI", desc:"Combustible",    v:52, max:200,c:"#ff8833"},
-  {n:"FWI", desc:"Risque global",  v:38, max:50, c:"#ff2222"},
-];
-
-const STATS = {
-  wind:[{l:"Max",v:"67",c:"#ffaa30"},{l:"Moyen",v:"28",c:"#5a8a5a"}],
-  t2m: [{l:"Max",v:"43°C",c:"#ff5040"},{l:"Min",v:"17°C",c:"#4090ff"}],
-  prec:[{l:"Max",v:"12 mm",c:"#4090ff"},{l:"Zones>2mm",v:"8%",c:"#5a8a5a"}],
-  mslp:[{l:"Min",v:"1009 hPa",c:"#5aade8"},{l:"Max",v:"1021 hPa",c:"#e07030"}],
-  rh:  [{l:"Min",v:"12%",c:"#e84040"},{l:"Moyen",v:"41%",c:"#40c040"}],
-  fwi: [{l:"Max FWI",v:"38",c:"#e84040"},{l:"Zones extr.",v:"1",c:"#e09000"}],
-};
-
-const LEGENDS = {
-  wind:{t:"Vent (km/h)",   s:[{v:"0–15",c:"#0a2040"},{v:"15–30",c:"#1560a0"},{v:"30–50",c:"#30a0d0"},{v:"50–70",c:"#e09000"},{v:">70",c:"#e84040"}]},
-  t2m: {t:"Temp. (°C)",    s:[{v:"<15",c:"#1560a0"},{v:"15–25",c:"#50b0e8"},{v:"25–35",c:"#f0d060"},{v:"35–42",c:"#e07030"},{v:">42",c:"#a00020"}]},
-  prec:{t:"Précip. (mm)",  s:[{v:"0",c:"#111811"},{v:"0.5–5",c:"#1a6e2a"},{v:"5–15",c:"#2060c0"},{v:"15–30",c:"#6820a0"},{v:">30",c:"#c000c0"}]},
-  mslp:{t:"MSLP (hPa)",    s:[{v:"<1008",c:"#1560a0"},{v:"1008–12",c:"#50b0e8"},{v:"1012–16",c:"#f0d060"},{v:"1016–20",c:"#e07030"},{v:">1020",c:"#a00020"}]},
-  rh:  {t:"Humidité (%)",  s:[{v:"<15%",c:"#a00020"},{v:"15–35%",c:"#e07030"},{v:"35–55%",c:"#f0d060"},{v:"55–75%",c:"#2aaa50"},{v:">75%",c:"#1560a0"}]},
-  fwi: {t:"FWI",           s:[{v:"Faible <12",c:"#1a6e2a"},{v:"Modéré 12–25",c:"#e09000"},{v:"Élevé 25–38",c:"#e05010"},{v:"Extrême >38",c:"#800000"}]},
-};
-
-/* === ALGERIA POLYGON === */
-const ALG_POLY = [
-  [37.09,8.57],[37.07,7.50],[36.88,5.17],[36.91,3.06],[36.90,1.50],
-  [36.53,0.20],[36.15,-0.58],[35.93,-2.22],[34.80,-2.55],[34.18,-3.83],
-  [33.00,-5.00],[30.00,-6.50],[27.67,-8.68],[24.00,-8.68],[21.33,-8.68],
-  [20.00,-5.50],[19.14,0.50],[19.14,3.00],[19.50,5.50],[21.00,9.00],
-  [23.50,11.60],[26.00,9.50],[30.00,9.50],[33.17,8.37],[35.50,8.57],
-  [37.09,8.57]
-];
-
-/* === GRID === */
-const ROWS=18, COLS=22;
-const LAT0=19.0,LAT1=37.5,LON0=-9.0,LON1=12.0;
-
-function inPoly(lat,lon,poly){
-  let inside=false;
-  for(let i=0,j=poly.length-1;i<poly.length;j=i++){
-    const [yi,xi]=poly[i],[yj,xj]=poly[j];
-    if(((yi>lat)!==(yj>lat))&&(lon<(xj-xi)*(lat-yi)/(yj-yi)+xi))inside=!inside;
-  }
-  return inside;
+// ── LOGIN ─────────────────────────────────────────────────
+function getVisitors() {
+  try { return JSON.parse(localStorage.getItem('fpg_visitors') || '[]'); } catch(e) { return []; }
+}
+function saveVisitor(name, org) {
+  const v = getVisitors();
+  v.unshift({ name, org, time: new Date().toLocaleString('fr-FR'), id: Date.now() });
+  if(v.length > 50) v.splice(50);
+  localStorage.setItem('fpg_visitors', JSON.stringify(v));
 }
 
-const GRID=[];
-for(let r=0;r<ROWS;r++){
-  for(let c=0;c<COLS;c++){
-    const lat=LAT0+(r/(ROWS-1))*(LAT1-LAT0);
-    const lon=LON0+(c/(COLS-1))*(LON1-LON0);
-    if(inPoly(lat,lon,ALG_POLY)) GRID.push({lat,lon});
-  }
+function showPastVisitors() {
+  const v = getVisitors();
+  if(v.length === 0) return;
+  const el = document.getElementById('past-visitors');
+  const list = document.getElementById('past-visitors-list');
+  el.style.display = 'block';
+  list.innerHTML = v.slice(0,5).map(x => `<div style="padding:3px 0;border-bottom:1px solid #eee">
+    <strong>${x.name}</strong> (${x.org}) — ${x.time}</div>`).join('');
 }
 
-/* === DATA GENERATION === */
-function hs(x){const s=Math.sin(x*127.1+311.7)*43758.5;return s-Math.floor(s);}
-function noise(lat,lon,fh){return hs(lat*131+lon*71+fh*17)*0.6+hs(lat*73+lon*149+fh*31)*0.4;}
-
-function getVal(param,lat,lon,fh){
-  const nr=(lat-LAT0)/(LAT1-LAT0);
-  const nc=(lon-LON0)/(LON1-LON0);
-  const diurnal=Math.sin(2*Math.PI*(fh-14)/24);
-  const n=noise(lat,lon,fh);
-  switch(param){
-    case'wind':{
-      const b=8+18*nr+10*(1-Math.abs(nc-0.5)*2)+6*Math.sin(2*Math.PI*fh/24+nc*Math.PI);
-      return Math.max(0,b+n*10-5);
-    }
-    case't2m':{
-      const b=44-nr*22+7*diurnal+Math.sin(nc*Math.PI)*3;
-      return Math.max(5,b+n*4-2);
-    }
-    case'prec':{
-      if(nr<0.65) return Math.max(0,n*1.5-0.5);
-      const b=(1+Math.sin(nc*Math.PI*2))*Math.max(0,-diurnal)*6;
-      return Math.max(0,b+n*4-2);
-    }
-    case'mslp':{
-      const b=1013+5*Math.sin(2*Math.PI*fh/24)*Math.cos(nc*Math.PI)-2*(1-nr);
-      return b+n*2-1;
-    }
-    case'rh':{
-      const b=12+nr*55-18*Math.max(0,diurnal)+nc*8;
-      return Math.min(98,Math.max(5,b+n*10-5));
-    }
-    case'fwi':{
-      const b=36*nr+8*Math.max(0,-diurnal)+(1-nr)*4+nc*4;
-      return Math.min(50,Math.max(0,b+n*6-3));
-    }
-    default:return 0;
-  }
+function doLogin() {
+  const u = document.getElementById('login-username').value.trim();
+  const o = document.getElementById('login-org').value.trim();
+  const p = document.getElementById('login-password').value;
+  const err = document.getElementById('login-error');
+  if(!u) { err.textContent='❌ Entrez votre nom'; err.style.display='block'; return; }
+  if(!o) { err.textContent='❌ Entrez votre organisation'; err.style.display='block'; return; }
+  if(p !== PASSWORD) { err.textContent='❌ Mot de passe incorrect'; err.style.display='block'; return; }
+  saveVisitor(u, o);
+  sessionStorage.setItem('fpg_user', JSON.stringify({name:u, org:o}));
+  document.getElementById('login-overlay').style.display = 'none';
+  document.getElementById('user-display').textContent = `👤 ${u} — ${o}`;
+  document.getElementById('visitor-section').style.display = 'block';
+  renderVisitorTable();
+  renderFWI();
+  updateMaps(0);
 }
 
-/* === COLOR INTERPOLATION === */
-const SCALES={
-  wind:[[0,"#04101e"],[15,"#0d3d7a"],[30,"#28a0cc"],[50,"#e09000"],[70,"#e84040"]],
-  t2m: [[5,"#0d3d7a"],[18,"#40a8e0"],[28,"#f0d050"],[36,"#e07030"],[44,"#900020"]],
-  prec:[[0,"#0c120c"],[0.4,"#1a6e2a"],[5,"#1868c0"],[15,"#6020a0"],[30,"#c000b0"]],
-  mslp:[[1005,"#0d3d7a"],[1009,"#40a8e0"],[1013,"#f0d050"],[1017,"#e07030"],[1022,"#900020"]],
-  rh:  [[5,"#900020"],[20,"#e07030"],[40,"#f0d050"],[60,"#28aa50"],[85,"#0d3d7a"]],
-  fwi: [[0,"#164e20"],[12,"#d08800"],[25,"#d04808"],[38,"#a80000"],[50,"#700000"]],
-};
-
-function lerp(a,b,t){
-  const p=s=>[parseInt(s.slice(1,3),16),parseInt(s.slice(3,5),16),parseInt(s.slice(5,7),16)];
-  const[ar,ag,ab]=p(a),[br,bg,bb]=p(b);
-  const h=n=>n.toString(16).padStart(2,'0');
-  return`#${h(Math.round(ar+(br-ar)*t))}${h(Math.round(ag+(bg-ag)*t))}${h(Math.round(ab+(bb-ab)*t))}`;
+function doLogout() {
+  sessionStorage.removeItem('fpg_user');
+  location.reload();
 }
 
-function getColor(param,v){
-  const sc=SCALES[param]||SCALES.wind;
-  if(v<=sc[0][0]) return sc[0][1];
-  if(v>=sc[sc.length-1][0]) return sc[sc.length-1][1];
-  for(let i=1;i<sc.length;i++){
-    if(v<=sc[i][0]){
-      const t=(v-sc[i-1][0])/(sc[i][0]-sc[i-1][0]);
-      return lerp(sc[i-1][1],sc[i][1],t);
-    }
-  }
-  return sc[0][1];
+// ── MAPS ──────────────────────────────────────────────────
+function pad(n) { return String(n).padStart(3,'0'); }
+
+function updateMaps(step) {
+  currentStep = parseInt(step);
+  document.getElementById('slider-display').textContent = `+${pad(currentStep)}h`;
+  renderMaps();
 }
 
-/* === STATE === */
-let curParam="wind",curFH=0,playing=false,playTimer=null;
-let map,markerLayer,MARKERS=[];
-
-/* === SPLASH → APP === */
-function enterApp(){
-  document.getElementById("splash").classList.add("fade-out");
-  setTimeout(()=>{
-    document.getElementById("splash").style.display="none";
-    document.getElementById("app").classList.add("show");
-    initApp();
-  },700);
+function showCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMaps();
 }
 
-/* === INIT === */
-function initApp(){
-  document.getElementById("rl").textContent=RUN_DATE+" "+RUN_CYCLE;
-  document.getElementById("ut").textContent=new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
-  if(RISK_ZONES.some(z=>z.r==="E")) document.getElementById("alert-chip").style.display="block";
-  buildRCards(); buildPGrid(); buildStats(); buildFWI(); buildFWIChips();
-  initMap();
-}
-
-/* === MAP === */
-function initMap(){
-  map=L.map("map",{
-    center:[28.0,2.5],zoom:5,
-    minZoom:5,maxZoom:9,
-    maxBounds:[[14,-14],[42,16]],
-    maxBoundsViscosity:0.9,
-  });
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",{
-    attribution:"© OpenStreetMap © CARTO",subdomains:"abcd",maxZoom:19
-  }).addTo(map);
-
-  /* Algeria border */
-  L.polygon(ALG_POLY,{
-    color:"rgba(180,220,180,0.55)",weight:1.5,fill:false,dashArray:"5,3"
-  }).addTo(map);
-
-  /* Risk zone markers */
-  RISK_ZONES.forEach(z=>{
-    const col=RCOLS[z.r];
-    const icon=L.divIcon({
-      className:"",
-      html:`<div style="width:12px;height:12px;border-radius:50%;background:${col};border:2px solid rgba(0,0,0,0.6);box-shadow:0 0 7px ${col}99;"></div>`,
-      iconSize:[12,12],iconAnchor:[6,6]
-    });
-    L.marker([z.lat,z.lon],{icon,zIndexOffset:600}).addTo(map)
-     .bindPopup(`<b style="color:${col}">${z.n}</b><br>FWI : <b>${z.fwi}</b><br>Risque : <b style="color:${col}">${RLBLS[z.r]}</b>`);
-  });
-
-  /* Pre-create grid markers */
-  markerLayer=L.layerGroup().addTo(map);
-  GRID.forEach(pt=>{
-    const m=L.circleMarker([pt.lat,pt.lon],{
-      radius:7,color:"transparent",fillColor:"#111",fillOpacity:0.85,weight:0
-    }).addTo(markerLayer);
-    m.on("mouseover",function(e){
-      const v=getVal(curParam,pt.lat,pt.lon,curFH);
-      const col=getColor(curParam,v);
-      const unit=(PARAMS.find(p=>p.id===curParam)||{unit:""}).unit;
-      this.bindTooltip(`<b style="color:${col}">${v.toFixed(1)} ${unit}</b><br>
-        <span style="color:#5a7a5a">lat ${pt.lat.toFixed(2)} lon ${pt.lon.toFixed(2)}</span>`,
-        {direction:"top",sticky:true}).openTooltip(e.latlng);
-    });
-    MARKERS.push({m,pt});
-  });
-
-  renderLayer();
-  buildLegend();
-}
-
-function renderLayer(){
-  const p=PARAMS.find(x=>x.id===curParam)||{lbl:curParam};
-  document.getElementById("mtitle").textContent=
-    p.lbl+" — +"+String(curFH).padStart(2,"0")+"h";
-  MARKERS.forEach(({m,pt})=>{
-    const v=getVal(curParam,pt.lat,pt.lon,curFH);
-    m.setStyle({fillColor:getColor(curParam,v)});
-  });
-}
-
-function buildLegend(){
-  const lg=LEGENDS[curParam]||LEGENDS.wind;
-  document.getElementById("legend").innerHTML=
-    `<h4>${lg.t}</h4>`+
-    lg.s.map(s=>`<div class="li"><div class="lsw" style="background:${s.c}"></div><span>${s.v}</span></div>`).join("");
-}
-
-/* === UI === */
-function buildRCards(){
-  document.getElementById("rcards").innerHTML=RISK_ZONES.map(z=>{
-    const pct=Math.min(100,Math.round(z.fwi/50*100));
-    const c=RCOLS[z.r];
-    return`<div class="rcard" onclick="map.flyTo([${z.lat},${z.lon}],8,{duration:1.1})">
-      <div class="rct"><span class="rcn">${z.n}</span><span class="rpill r${z.r}">${RLBLS[z.r]}</span></div>
-      <div class="rbg"><div class="rbar" style="width:${pct}%;background:${c}"></div></div>
-      <div class="rval">FWI : <b>${z.fwi}</b></div>
+function renderMaps() {
+  const grid = document.getElementById('map-grid');
+  const vars = currentCat === 'all' ? VARS : VARS.filter(v => v.cat === currentCat || v.prefix === currentCat);
+  grid.innerHTML = vars.map(v => {
+    const file = `${v.prefix}_F${pad(currentStep)}.png`;
+    return `<div class="map-card">
+      <img src="${PLOTS_PATH}${file}" alt="${v.label} +${pad(currentStep)}h" onerror="this.src='https://via.placeholder.com/400x220/1A4731/ffffff?text=${v.prefix}+non+disponible'">
+      <div class="map-label">${v.label} — +${pad(currentStep)}h (${currentStep}h UTC)</div>
     </div>`;
-  }).join("");
+  }).join('');
 }
 
-function buildPGrid(){
-  document.getElementById("pgrid").innerHTML=PARAMS.map(p=>
-    `<div class="pbtn${p.id===curParam?" on":""}" id="pb-${p.id}" onclick="selParam('${p.id}')">
-      <span class="pi">${p.icon}</span>${p.lbl}
-    </div>`
-  ).join("");
+// ── FWI TABLE ─────────────────────────────────────────────
+function getRiskLevel(fwi) {
+  if(fwi < 5) return ['LOW','Faible'];
+  if(fwi < 12) return ['MODERATE','Modéré'];
+  if(fwi < 24) return ['HIGH','Élevé'];
+  return ['EXTREME','Extrême'];
 }
 
-function selParam(id){
-  curParam=id;
-  document.querySelectorAll(".pbtn").forEach(b=>b.classList.remove("on"));
-  const btn=document.getElementById("pb-"+id);
-  if(btn)btn.classList.add("on");
-  renderLayer(); buildLegend(); buildStats();
+function renderFWI() {
+  const tbody = document.getElementById('fwi-tbody');
+  tbody.innerHTML = Object.entries(FWI_DATA).map(([h, d]) => {
+    const [rc, rl] = getRiskLevel(d.fwi);
+    const highlight = d.fwi === 10.3 ? 'background:#fffde7' : '';
+    return `<tr style="${highlight}">
+      <td><strong>${pad(parseInt(h))}h UTC</strong></td>
+      <td>${d.ffmc}</td><td>${d.dmc}</td><td>${d.dc}</td>
+      <td>${d.isi}</td><td>${d.bui}</td>
+      <td><strong>${d.fwi}</strong></td>
+      <td><span class="risk-badge risk-${rc}">${rl}</span></td>
+    </tr>`;
+  }).join('');
 }
 
-function buildStats(){
-  const st=STATS[curParam]||STATS.wind;
-  const p=PARAMS.find(x=>x.id===curParam)||{unit:""};
-  document.getElementById("sgrid").innerHTML=st.map(s=>
-    `<div class="scard">
-      <div class="slbl">${s.l}</div>
-      <div class="sval" style="color:${s.c}">${s.v}<span class="sunit"> ${p.unit}</span></div>
-    </div>`
-  ).join("");
+// ── VISITOR TABLE ─────────────────────────────────────────
+function renderVisitorTable() {
+  const v = getVisitors();
+  const tbody = document.getElementById('visitors-tbody');
+  tbody.innerHTML = v.map((x,i) => `<tr>
+    <td><strong>${x.name}</strong></td>
+    <td>${x.org}</td>
+    <td>${x.time}</td>
+    <td>${i===0 ? '<span style="color:green">● Active</span>' : 'Terminée'}</td>
+  </tr>`).join('');
 }
 
-function buildFWI(){
-  document.getElementById("frows").innerHTML=FWI_DATA.map(f=>{
-    const pct=Math.min(100,Math.round(f.v/f.max*100));
-    return`<div class="frow">
-      <div class="frt"><span class="fn">${f.n}</span><span class="fv" style="color:${f.c}">${f.v}</span></div>
-      <div class="fd">${f.desc}</div>
-      <div class="fb"><div class="ff" style="width:${pct}%;background:${f.c}"></div></div>
-    </div>`;
-  }).join("");
-}
-
-function buildFWIChips(){
-  document.getElementById("fchips").innerHTML=FWI_DATA.map(f=>
-    `<div class="fchip"><span>${f.n}:</span><b style="color:${f.c}"> ${f.v}</b></div>`
-  ).join("");
-}
-
-/* === ANIMATION === */
-function togglePlay(){
-  playing=!playing;
-  document.getElementById("pbtn").textContent=playing?"⏹ Stop":"▶ Animer";
-  if(playing){
-    playTimer=setInterval(()=>{
-      curFH=(curFH+1)%(MAX_FH+1);
-      document.getElementById("fh-slider").value=curFH;
-      document.getElementById("fh-label").textContent="+"+String(curFH).padStart(2,"0")+"h";
-      renderLayer();
-    },700);
-  }else{
-    clearInterval(playTimer);
+// ── INIT ──────────────────────────────────────────────────
+window.onload = function() {
+  showPastVisitors();
+  // Check if already logged in
+  const user = sessionStorage.getItem('fpg_user');
+  if(user) {
+    const u = JSON.parse(user);
+    document.getElementById('login-overlay').style.display = 'none';
+    document.getElementById('user-display').textContent = `👤 ${u.name} — ${u.org}`;
+    document.getElementById('visitor-section').style.display = 'block';
+    renderVisitorTable();
   }
-}
-
-function seekFH(v){
-  if(playing){clearInterval(playTimer);playing=false;document.getElementById("pbtn").textContent="▶ Animer";}
-  curFH=v;
-  document.getElementById("fh-label").textContent="+"+String(curFH).padStart(2,"0")+"h";
-  renderLayer();
-}
+  renderFWI();
+  updateMaps(0);
+};
 </script>
 </body>
 </html>
